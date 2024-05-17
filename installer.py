@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from libs import UserInput, NetworkSetup, SwapSetup, show_splash_screen, FilesystemSetup, BootloaderSetup, DesktopEnvironmentSetup
-from libs.packages_setup import PackagesSetup
+from libs import UserInput, NetworkSetup, SwapSetup, show_splash_screen, FilesystemSetup, BootloaderSetup, DesktopEnvironmentSetup, PackagesSetup
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
@@ -68,12 +67,17 @@ class ArchInstaller(tk.Tk):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.withdraw()  # Hide the main window while showing the splash screen
+    root.withdraw()  # Hide the root window
 
     # Show splash screen and schedule its destruction
     show_splash_screen(root, "splash.png", duration=3000)
 
+    def start_main_app():
+        root.deiconify()
+        app = ArchInstaller()
+        app.mainloop()
+
     # Wait for the splash screen to finish before showing the main window
-    root.after(3000, lambda: [root.deiconify(), ArchInstaller().mainloop()])
+    root.after(3000, start_main_app)
 
     root.mainloop()
