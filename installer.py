@@ -6,7 +6,8 @@ class ArchInstaller(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Arch Linux Installer")
-        self.geometry("1020x600")  # Increased window width to 1020
+        self.geometry("1020x600")
+        self.packages_setup = None  # To be set later
         self.create_widgets()
 
     def create_widgets(self):
@@ -47,7 +48,7 @@ class ArchInstaller(tk.Tk):
 
         packages_frame = ttk.Frame(notebook)
         notebook.add(packages_frame, text="Packages Setup")
-        PackagesSetup(packages_frame, desktop_env_var)
+        self.packages_setup = PackagesSetup(packages_frame, desktop_env_var)
 
         confirm_frame = ttk.Frame(notebook)
         notebook.add(confirm_frame, text="Confirmation")
@@ -63,11 +64,21 @@ class ArchInstaller(tk.Tk):
         confirm_label = ttk.Label(frame, text="Review all your settings before proceeding with the installation.", wraplength=600, justify="center")
         confirm_label.pack(pady=10)
         
-        confirm_button = ttk.Button(frame, text="Proceed with Installation", command=self.start_installation)
+        confirm_button = ttk.Button(frame, text="Start Installation", command=self.start_installation)
         confirm_button.pack(pady=10)
 
     def start_installation(self):
+        # Ensure repositories are set up if selected
+        if self.packages_setup.chaotic_aur_var.get():
+            self.packages_setup.setup_chaotic_aur()
+
+        if self.packages_setup.cachyos_repo_var.get():
+            self.packages_setup.setup_cachyos_repo()
+
         print("Starting installation...")
+        # Add other installation steps here
+        # e.g., partitioning, mounting filesystems, pacstrap, etc.
+        messagebox.showinfo("Installation", "Installation process started. Check the console for details.")
 
 if __name__ == "__main__":
     root = tk.Tk()
