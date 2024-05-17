@@ -1,13 +1,23 @@
-*.tar
-*.tar.*
-*.jar
-*.exe
-*.msi
-*.zip
-*.tgz
-*.log
-*.log.*
-*.sig
+# Ignore Python cache directories
+__pycache__/
 
-pkg/
-src/
+# Ignore other common files and directories
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Ignore specific editor or IDE files
+.vscode/
+.idea/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore specific build files or directories
+dist/
+build/
