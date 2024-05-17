@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from libs import UserInput, NetworkSetup, SwapSetup, show_splash_screen, FilesystemSetup, BootloaderSetup, DesktopEnvironmentSetup, PackagesSetup, KernelSetup
 
 class ArchInstaller(tk.Tk):
@@ -7,7 +7,6 @@ class ArchInstaller(tk.Tk):
         super().__init__()
         self.title("Arch Linux Installer")
         self.geometry("1020x600")
-        self.packages_setup = None  # To be set later
         self.create_widgets()
 
     def create_widgets(self):
@@ -19,7 +18,7 @@ class ArchInstaller(tk.Tk):
 
         user_input_frame = ttk.Frame(notebook)
         notebook.add(user_input_frame, text="User Input")
-        UserInput(user_input_frame)
+        self.user_input = UserInput(user_input_frame)
 
         network_frame = ttk.Frame(notebook)
         notebook.add(network_frame, text="Network Setup")
@@ -68,7 +67,8 @@ class ArchInstaller(tk.Tk):
         confirm_button.pack(pady=10)
 
     def start_installation(self):
-        # Ensure repositories are set up if selected
+        user_info = self.user_input.get_user_info()
+
         if self.packages_setup.chaotic_aur_var.get():
             self.packages_setup.setup_chaotic_aur()
 
@@ -76,6 +76,7 @@ class ArchInstaller(tk.Tk):
             self.packages_setup.setup_cachyos_repo()
 
         print("Starting installation...")
+        print(f"User Info: {user_info}")
         # Add other installation steps here
         # e.g., partitioning, mounting filesystems, pacstrap, etc.
         messagebox.showinfo("Installation", "Installation process started. Check the console for details.")
