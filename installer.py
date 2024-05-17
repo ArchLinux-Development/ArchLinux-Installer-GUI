@@ -1,12 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
 from libs import UserInput, NetworkSetup, SwapSetup, show_splash_screen, FilesystemSetup, BootloaderSetup, DesktopEnvironmentSetup
+from libs.packages_setup import PackagesSetup
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Arch Linux Installer")
-        self.geometry("900x600")
+        self.geometry("950x600")
         self.create_widgets()
 
     def create_widgets(self):
@@ -38,7 +39,12 @@ class ArchInstaller(tk.Tk):
 
         desktop_environment_frame = ttk.Frame(notebook)
         notebook.add(desktop_environment_frame, text="Desktop Environment Setup")
-        DesktopEnvironmentSetup(desktop_environment_frame)
+        desktop_env_var = tk.StringVar()
+        DesktopEnvironmentSetup(desktop_environment_frame, desktop_env_var)
+
+        packages_frame = ttk.Frame(notebook)
+        notebook.add(packages_frame, text="Packages Setup")
+        PackagesSetup(packages_frame, desktop_env_var)
 
         confirm_frame = ttk.Frame(notebook)
         notebook.add(confirm_frame, text="Confirmation")

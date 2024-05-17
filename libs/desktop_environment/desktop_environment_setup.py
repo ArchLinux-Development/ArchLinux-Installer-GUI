@@ -1,26 +1,28 @@
+# libs/desktop_environment/desktop_environment_setup.py
+
 import tkinter as tk
 from tkinter import ttk, messagebox
 from . import gnome, kde_plasma, xfce, lxde, lxqt, cinnamon, mate, budgie, deepin, enlightenment
 
 class DesktopEnvironmentSetup:
-    def __init__(self, frame):
+    def __init__(self, frame, desktop_env_var):
         self.frame = frame
+        self.desktop_env_var = desktop_env_var
         self.create_widgets()
 
     def create_widgets(self):
         ttk.Label(self.frame, text="Desktop Environment Setup:").pack(pady=10)
 
-        self.de_var = tk.StringVar(value="gnome")
         environments = ["GNOME", "KDE Plasma", "Xfce", "LXDE", "LXQt", "Cinnamon", "MATE", "Budgie", "Deepin", "Enlightenment"]
 
         for de in environments:
-            ttk.Radiobutton(self.frame, text=de, variable=self.de_var, value=de.lower().replace(' ', '_')).pack(pady=5)
+            ttk.Radiobutton(self.frame, text=de, variable=self.desktop_env_var, value=de.lower().replace(' ', '_')).pack(pady=5)
 
         self.install_button = ttk.Button(self.frame, text="Install Desktop Environment", command=self.install_de)
         self.install_button.pack(pady=10)
 
     def install_de(self):
-        de = self.de_var.get()
+        de = self.desktop_env_var.get()
         if de == "gnome":
             message = gnome.install_gnome()
         elif de == "kde_plasma":
