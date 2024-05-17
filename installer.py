@@ -43,12 +43,11 @@ class ArchInstaller(tk.Tk):
 
         desktop_environment_frame = ttk.Frame(notebook)
         notebook.add(desktop_environment_frame, text="Desktop Environment Setup")
-        desktop_env_var = tk.StringVar()
-        DesktopEnvironmentSetup(desktop_environment_frame, desktop_env_var)
+        self.desktop_environment_setup = DesktopEnvironmentSetup(desktop_environment_frame, tk.StringVar())
 
         packages_frame = ttk.Frame(notebook)
         notebook.add(packages_frame, text="Packages Setup")
-        self.packages_setup = PackagesSetup(packages_frame, desktop_env_var)
+        self.packages_setup = PackagesSetup(packages_frame, self.desktop_environment_setup.desktop_env_var)
 
         confirm_frame = ttk.Frame(notebook)
         notebook.add(confirm_frame, text="Confirmation")
@@ -68,6 +67,9 @@ class ArchInstaller(tk.Tk):
         confirm_button.pack(pady=10)
 
     def start_installation(self):
+        if not self.desktop_environment_setup.validate_selection():
+            return
+
         user_info = self.user_input.get_user_info()
 
         if self.packages_setup.chaotic_aur_var.get():

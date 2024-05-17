@@ -1,8 +1,7 @@
-# libs/desktop_environment/desktop_environment_setup.py
+# libs/desktop_environment_setup.py
 
 import tkinter as tk
 from tkinter import ttk, messagebox
-from . import gnome, kde_plasma, xfce, lxde, lxqt, cinnamon, mate, budgie, deepin, enlightenment
 
 class DesktopEnvironmentSetup:
     def __init__(self, frame, desktop_env_var):
@@ -13,37 +12,26 @@ class DesktopEnvironmentSetup:
     def create_widgets(self):
         ttk.Label(self.frame, text="Desktop Environment Setup:").pack(pady=10)
 
-        environments = ["GNOME", "KDE Plasma", "Xfce", "LXDE", "LXQt", "Cinnamon", "MATE", "Budgie", "Deepin", "Enlightenment"]
+        self.desktop_env_var.set("gnome")  # Default desktop environment
+        environments = ["gnome", "kde_plasma", "xfce", "lxde", "lxqt", "cinnamon", "mate", "budgie", "deepin", "enlightenment"]
 
-        for de in environments:
-            ttk.Radiobutton(self.frame, text=de, variable=self.desktop_env_var, value=de.lower().replace(' ', '_')).pack(pady=5)
+        self.env_menu = ttk.OptionMenu(self.frame, self.desktop_env_var, environments[0], *environments)
+        self.env_menu.pack(pady=5)
 
-        self.install_button = ttk.Button(self.frame, text="Install Desktop Environment", command=self.install_de)
-        self.install_button.pack(pady=10)
+        self.xorg_var = tk.BooleanVar(value=True)
+        self.wayland_var = tk.BooleanVar(value=False)
 
-    def install_de(self):
-        de = self.desktop_env_var.get()
-        if de == "gnome":
-            message = gnome.install_gnome()
-        elif de == "kde_plasma":
-            message = kde_plasma.install_kde_plasma()
-        elif de == "xfce":
-            message = xfce.install_xfce()
-        elif de == "lxde":
-            message = lxde.install_lxde()
-        elif de == "lxqt":
-            message = lxqt.install_lxqt()
-        elif de == "cinnamon":
-            message = cinnamon.install_cinnamon()
-        elif de == "mate":
-            message = mate.install_mate()
-        elif de == "budgie":
-            message = budgie.install_budgie()
-        elif de == "deepin":
-            message = deepin.install_deepin()
-        elif de == "enlightenment":
-            message = enlightenment.install_enlightenment()
-        else:
-            message = "Unknown desktop environment selected"
+        self.xorg_check = ttk.Checkbutton(self.frame, text="Install Xorg", variable=self.xorg_var)
+        self.xorg_check.pack(pady=5)
 
-        messagebox.showinfo("Desktop Environment Installation", message)
+        self.wayland_check = ttk.Checkbutton(self.frame, text="Install Wayland", variable=self.wayland_var)
+        self.wayland_check.pack(pady=5)
+
+        self.info_label = ttk.Label(self.frame, text="Select at least one: Xorg or Wayland.")
+        self.info_label.pack(pady=5)
+
+    def validate_selection(self):
+        if not self.xorg_var.get() and not self.wayland_var.get():
+            messagebox.showerror("Selection Error", "You must select at least one: Xorg or Wayland.")
+            return False
+        return True
