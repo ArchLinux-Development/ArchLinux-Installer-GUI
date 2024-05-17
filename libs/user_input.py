@@ -54,21 +54,33 @@ class UserInput:
     def detect_locale(self):
         # Detect current locale
         current_locale = locale.getdefaultlocale()
-        if current_locale[0]:
-            current_language, current_country = current_locale[0].split('_')
+        print(f"Detected locale: {current_locale}")
+
+        if current_locale and current_locale[0]:
+            try:
+                current_language, current_country = current_locale[0].split('_')
+            except ValueError:
+                current_language, current_country = 'en', 'US'  # Fallback defaults
         else:
             current_language, current_country = 'en', 'US'  # Default to English and US if detection fails
 
-        # Update comboboxes with detected locale
-        self.country_var.set(current_country)
-        self.language_var.set(current_language)
+        print(f"Detected language: {current_language}, country: {current_country}")
 
         # Populate comboboxes with options
         countries = ['US', 'GB', 'FR', 'DE', 'ES', 'IT', 'CN', 'JP']  # Add more countries as needed
         languages = ['en', 'fr', 'de', 'es', 'it', 'zh', 'ja']  # Add more languages as needed
 
+        if current_country not in countries:
+            countries.insert(0, current_country)
+        if current_language not in languages:
+            languages.insert(0, current_language)
+
         self.country_combobox['values'] = countries
         self.language_combobox['values'] = languages
+
+        # Set comboboxes with detected locale
+        self.country_combobox.set(current_country)
+        self.language_combobox.set(current_language)
 
     def detect_hardware(self):
         self.hardware_text.delete(1.0, tk.END)
