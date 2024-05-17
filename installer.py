@@ -7,6 +7,7 @@ class ArchInstaller(tk.Tk):
         super().__init__()
         self.title("Arch Linux Installer")
         self.geometry("1020x600")
+        self.packages_setup = None  # To be set later
         self.create_widgets()
 
     def create_widgets(self):
