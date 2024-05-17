@@ -55,16 +55,50 @@ class ArchInstaller(tk.Tk):
 
         notebook.pack(expand=True, fill="both")
 
+        notebook.bind("<<NotebookTabChanged>>", self.refresh_summary)
+
     def create_intro(self, frame):
         intro_label = ttk.Label(frame, text="Welcome to the Arch Linux Installer!\n\nThis installer will guide you through the process of setting up Arch Linux on your system.\n\nClick on the tabs above to configure each part of the installation process.", wraplength=600, justify="center")
         intro_label.pack(expand=True, fill="both")
 
     def create_confirmation(self, frame):
-        confirm_label = ttk.Label(frame, text="Review all your settings before proceeding with the installation.", wraplength=600, justify="center")
-        confirm_label.pack(pady=10)
+        self.confirm_label = ttk.Label(frame, text="Review all your settings before proceeding with the installation.", wraplength=600, justify="center")
+        self.confirm_label.pack(pady=10)
         
+        self.summary_text = tk.Text(frame, height=20, width=100, wrap="word")
+        self.summary_text.pack(pady=10)
+
         confirm_button = ttk.Button(frame, text="Start Installation", command=self.start_installation)
         confirm_button.pack(pady=10)
+
+    def refresh_summary(self, event):
+        self.summary_text.delete(1.0, tk.END)
+
+        user_info = self.user_input.get_user_info()
+        network_info = "Network settings to be added here."  # Replace with actual network settings
+        kernel_info = "Kernel settings to be added here."  # Replace with actual kernel settings
+        filesystem_info = "Filesystem settings to be added here."  # Replace with actual filesystem settings
+        bootloader_info = "Bootloader settings to be added here."  # Replace with actual bootloader settings
+        swap_info = "Swap settings to be added here."  # Replace with actual swap settings
+        desktop_env_info = f"Desktop Environment: {self.desktop_environment_setup.desktop_env_var.get()}\nXorg: {self.desktop_environment_setup.xorg_var.get()}\nWayland: {self.desktop_environment_setup.wayland_var.get()}"
+        packages_info = "Packages settings to be added here."  # Replace with actual packages settings
+
+        summary = (
+            f"User Information:\n"
+            f"Username: {user_info['username']}\n"
+            f"Admin Rights: {user_info['admin_rights']}\n"
+            f"Country: {user_info['country']}\n"
+            f"Language: {user_info['language']}\n\n"
+            f"{network_info}\n\n"
+            f"{kernel_info}\n\n"
+            f"{filesystem_info}\n\n"
+            f"{bootloader_info}\n\n"
+            f"{swap_info}\n\n"
+            f"{desktop_env_info}\n\n"
+            f"{packages_info}"
+        )
+
+        self.summary_text.insert(tk.END, summary)
 
     def start_installation(self):
         if not self.desktop_environment_setup.validate_selection():
