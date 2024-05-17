@@ -1,15 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
-from libs import user_input, network, swap
-from libs.bootloader.bootloader_setup import BootloaderSetup
-from libs.desktop_environment.desktop_environment_setup import DesktopEnvironmentSetup
-from libs.filesystem import FilesystemSetup
+from libs import UserInput, NetworkSetup, SwapSetup, show_splash_screen, FilesystemSetup, BootloaderSetup, DesktopEnvironmentSetup
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Arch Linux Installer")
-        self.geometry("900x600")  # Increased width from 800 to 900
+        self.geometry("900x600")
         self.create_widgets()
 
     def create_widgets(self):
@@ -21,11 +18,11 @@ class ArchInstaller(tk.Tk):
 
         user_input_frame = ttk.Frame(notebook)
         notebook.add(user_input_frame, text="User Input")
-        user_input.UserInput(user_input_frame)
+        UserInput(user_input_frame)
 
         network_frame = ttk.Frame(notebook)
         notebook.add(network_frame, text="Network Setup")
-        network.NetworkSetup(network_frame)
+        NetworkSetup(network_frame)
 
         filesystem_frame = ttk.Frame(notebook)
         notebook.add(filesystem_frame, text="Filesystem Setup")
@@ -37,7 +34,7 @@ class ArchInstaller(tk.Tk):
 
         swap_frame = ttk.Frame(notebook)
         notebook.add(swap_frame, text="Swap Setup")
-        swap.SwapSetup(swap_frame)
+        SwapSetup(swap_frame)
 
         desktop_environment_frame = ttk.Frame(notebook)
         notebook.add(desktop_environment_frame, text="Desktop Environment Setup")
@@ -64,5 +61,13 @@ class ArchInstaller(tk.Tk):
         print("Starting installation...")
 
 if __name__ == "__main__":
-    app = ArchInstaller()
-    app.mainloop()
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window while showing the splash screen
+
+    # Show splash screen and schedule its destruction
+    show_splash_screen(root, "splash.png", duration=3000)
+
+    # Wait for the splash screen to finish before showing the main window
+    root.after(3000, lambda: [root.deiconify(), ArchInstaller().mainloop()])
+
+    root.mainloop()
