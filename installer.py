@@ -9,7 +9,7 @@ class ArchInstaller(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Arch Linux Installer")
-        self.geometry("800x600")
+        self.geometry("900x600")  # Increased width from 800 to 900
         self.create_widgets()
 
     def create_widgets(self):
