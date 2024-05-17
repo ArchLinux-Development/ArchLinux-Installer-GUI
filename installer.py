@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
-from libs import user_input, network, filesystem, swap
+from libs import user_input, network, swap
 from libs.bootloader.bootloader_setup import BootloaderSetup
 from libs.desktop_environment.desktop_environment_setup import DesktopEnvironmentSetup
+from libs.filesystem.filesystem_setup import FilesystemSetup
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
@@ -28,7 +29,7 @@ class ArchInstaller(tk.Tk):
 
         filesystem_frame = ttk.Frame(notebook)
         notebook.add(filesystem_frame, text="Filesystem Setup")
-        filesystem.FilesystemSetup(filesystem_frame)
+        FilesystemSetup(filesystem_frame)
 
         bootloader_frame = ttk.Frame(notebook)
         notebook.add(bootloader_frame, text="Bootloader Setup")
