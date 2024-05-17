@@ -3,7 +3,7 @@ from tkinter import ttk
 from libs import user_input, network, swap
 from libs.bootloader.bootloader_setup import BootloaderSetup
 from libs.desktop_environment.desktop_environment_setup import DesktopEnvironmentSetup
-from libs.filesystem.filesystem_setup import FilesystemSetup
+from libs.filesystem import FilesystemSetup
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
