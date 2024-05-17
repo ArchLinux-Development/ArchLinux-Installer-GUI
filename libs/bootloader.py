@@ -10,7 +10,12 @@ class BootloaderSetup:
         ttk.Label(self.frame, text="Bootloader Setup:").pack(pady=10)
 
         self.bootloader_var = tk.StringVar(value="grub")
-        bootloaders = ["grub", "systemd-boot"]
+        bootloaders = ["GRUB", "systemd-boot", "Syslinux", "rEFInd", "LILO", "EFISTUB", "Clover EFI", "Elilo"]
 
         for bl in bootloaders:
-            ttk.Radiobutton(self.frame, text=bl, variable=self.bootloader_var, value=bl).pack(pady=5)
+            ttk.Radiobutton(self.frame, text=bl, variable=self.bootloader_var, value=bl.lower()).pack(pady=5)
+
+# Usage example for integration in installer.py:
+# bootloader_frame = ttk.Frame(notebook)
+# notebook.add(bootloader_frame, text="Bootloader Setup")
+# bootloader.BootloaderSetup(bootloader_frame)
