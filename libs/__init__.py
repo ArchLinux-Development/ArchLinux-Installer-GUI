@@ -6,3 +6,4 @@ from .filesystem.filesystem_setup import FilesystemSetup
 from .bootloader.bootloader_setup import BootloaderSetup
 from .desktop_environment.desktop_environment_setup import DesktopEnvironmentSetup
 from .packages_setup import PackagesSetup
+from .kernel_setup import KernelSetup

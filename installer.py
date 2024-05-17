@@ -1,12 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
-from libs import UserInput, NetworkSetup, SwapSetup, show_splash_screen, FilesystemSetup, BootloaderSetup, DesktopEnvironmentSetup, PackagesSetup
+from libs import UserInput, NetworkSetup, SwapSetup, show_splash_screen, FilesystemSetup, BootloaderSetup, DesktopEnvironmentSetup, PackagesSetup, KernelSetup
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Arch Linux Installer")
-        self.geometry("950x600")
+        self.geometry("1020x600")
         self.create_widgets()
 
     def create_widgets(self):
@@ -23,6 +23,10 @@ class ArchInstaller(tk.Tk):
         network_frame = ttk.Frame(notebook)
         notebook.add(network_frame, text="Network Setup")
         NetworkSetup(network_frame)
+
+        kernel_frame = ttk.Frame(notebook)
+        notebook.add(kernel_frame, text="Kernel Setup")
+        KernelSetup(kernel_frame)
 
         filesystem_frame = ttk.Frame(notebook)
         notebook.add(filesystem_frame, text="Filesystem Setup")
@@ -67,7 +71,7 @@ class ArchInstaller(tk.Tk):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    root.withdraw()  # Hide the root window
+    root.withdraw()  # Hide the main window while showing the splash screen
 
     # Show splash screen and schedule its destruction
     show_splash_screen(root, "splash.png", duration=3000)
