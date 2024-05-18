@@ -8,10 +8,13 @@ class DesktopEnvironmentFrame(ttk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        # Add desktop environment setup widgets here
         ttk.Label(self, text="Desktop Environment Setup").pack(pady=5)
         ttk.Label(self, text="Select Desktop Environment:").pack(pady=5)
-        ttk.Entry(self, textvariable=self.desktop_env_var).pack(pady=5)
+
+        self.desktop_env_combo = ttk.Combobox(self, textvariable=self.desktop_env_var)
+        self.desktop_env_combo.pack(pady=5)
+        self.desktop_env_combo['values'] = ["GNOME", "KDE Plasma", "XFCE", "LXQt", "MATE", "Cinnamon"]
+        self.desktop_env_combo.current(0)
 
         self.xorg_var = tk.BooleanVar()
         ttk.Checkbutton(self, text="Install Xorg", variable=self.xorg_var).pack(pady=5)

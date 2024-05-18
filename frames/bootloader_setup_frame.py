@@ -7,9 +7,11 @@ class BootloaderSetupFrame(ttk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        # Add bootloader setup widgets here
         ttk.Label(self, text="Bootloader Setup").pack(pady=5)
-        # Example widget, replace with actual bootloader setup options
         ttk.Label(self, text="Select Bootloader:").pack(pady=5)
+
         self.bootloader_var = tk.StringVar()
-        ttk.Entry(self, textvariable=self.bootloader_var).pack(pady=5)
+        self.bootloader_combo = ttk.Combobox(self, textvariable=self.bootloader_var)
+        self.bootloader_combo.pack(pady=5)
+        self.bootloader_combo['values'] = ["GRUB", "systemd-boot", "rEFInd"]
+        self.bootloader_combo.current(0)

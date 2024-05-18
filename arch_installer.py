@@ -1,15 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from frames.intro_frame import IntroFrame
-from frames.user_input_frame import UserInputFrame
-from frames.network_setup_frame import NetworkSetupFrame
-from frames.kernel_setup_frame import KernelSetupFrame
-from frames.filesystem_setup_frame import FilesystemSetupFrame
-from frames.bootloader_setup_frame import BootloaderSetupFrame
-from frames.swap_setup_frame import SwapSetupFrame
-from frames.desktop_environment_frame import DesktopEnvironmentFrame
-from frames.packages_setup_frame import PackagesSetupFrame
-from frames.confirmation_frame import ConfirmationFrame
+from frames import IntroFrame, UserInputFrame, NetworkSetupFrame, KernelSetupFrame, FilesystemSetupFrame, BootloaderSetupFrame, SwapSetupFrame, DesktopEnvironmentFrame, PackagesSetupFrame, ConfirmationFrame
 from utils import show_splash_screen
 
 class ArchInstaller(tk.Tk):
