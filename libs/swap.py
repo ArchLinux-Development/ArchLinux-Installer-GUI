@@ -17,7 +17,7 @@ class SwapSetup:
             ttk.Radiobutton(self.frame, text=sw, variable=self.swap_var, value=sw).pack(pady=5)
 
         self.zram_frame = ttk.Frame(self.frame)
-        
+
         self.zram_size_label = ttk.Label(self.zram_frame, text="ZRAM Size:")
         self.zram_size_label.pack(side="left", padx=5)
 
@@ -36,4 +36,6 @@ class SwapSetup:
 
         self.zram_size_combo['values'] = zram_sizes_gb
         self.zram_size_var.set(zram_sizes_gb[1])  # Default to half of the total RAM
+        self.zram_size_combo.current(1)  # Set the default selection in the combo box
+
         print(f"ZRAM sizes populated: {zram_sizes_gb}, default: {zram_sizes_gb[1]}")
