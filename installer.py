@@ -23,7 +23,7 @@ class ArchInstaller(tk.Tk):
 
         network_frame = ttk.Frame(notebook)
         notebook.add(network_frame, text="Network Setup")
-        NetworkSetup(network_frame)
+        self.network_setup = NetworkSetup(network_frame)
 
         kernel_frame = ttk.Frame(notebook)
         notebook.add(kernel_frame, text="Kernel Setup")
@@ -75,7 +75,7 @@ class ArchInstaller(tk.Tk):
         self.summary_text.delete(1.0, tk.END)
 
         user_info = self.user_input.get_user_info()
-        network_info = "Network settings to be added here."  # Replace with actual network settings
+        network_info = f"Network Interface: {self.network_setup.network_var.get()}\nWiFi SSID: {self.network_setup.wifi_ssid_var.get()}\nConnection Status: {self.network_setup.connection_status_var.get()}"
         kernel_info = "Kernel settings to be added here."  # Replace with actual kernel settings
         filesystem_info = "Filesystem settings to be added here."  # Replace with actual filesystem settings
         bootloader_info = "Bootloader settings to be added here."  # Replace with actual bootloader settings
@@ -89,7 +89,7 @@ class ArchInstaller(tk.Tk):
             f"Admin Rights: {user_info['admin_rights']}\n"
             f"Country: {user_info['country']}\n"
             f"Language: {user_info['language']}\n\n"
-            f"{network_info}\n\n"
+            f"Network Information:\n{network_info}\n\n"
             f"{kernel_info}\n\n"
             f"{filesystem_info}\n\n"
             f"{bootloader_info}\n\n"
