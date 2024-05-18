@@ -61,7 +61,7 @@ class ArchInstaller(tk.Tk):
             bootloader_info="Bootloader settings to be added here.",  # Replace with actual bootloader settings
             swap_info="Swap settings to be added here.",  # Replace with actual swap settings
             desktop_env_info=self.desktop_environment_setup.get_desktop_env_info(),
-            packages_info="Packages settings to be added here."  # Replace with actual packages settings
+            packages_info=self.packages_setup.get_packages_info()
         )
 
     def start_installation(self):
@@ -70,11 +70,11 @@ class ArchInstaller(tk.Tk):
 
         user_info = self.user_input.get_user_info()
 
-        if self.packages_setup.chaotic_aur_var.get():
-            self.packages_setup.setup_chaotic_aur()
+        if self.packages_setup.packages_setup.chaotic_aur_var.get():
+            self.packages_setup.packages_setup.setup_chaotic_aur()
 
-        if self.packages_setup.cachyos_repo_var.get():
-            self.packages_setup.setup_cachyos_repo()
+        if self.packages_setup.packages_setup.cachyos_repo_var.get():
+            self.packages_setup.packages_setup.setup_cachyos_repo()
 
         print("Starting installation...")
         print(f"User Info: {user_info}")

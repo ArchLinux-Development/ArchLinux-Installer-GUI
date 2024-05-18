@@ -1,28 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
+from libs.packages_setup import PackagesSetup
 
 class PackagesSetupFrame(ttk.Frame):
     def __init__(self, parent, desktop_env_var):
         super().__init__(parent)
-        self.desktop_env_var = desktop_env_var
-        self.create_widgets()
+        self.packages_setup = PackagesSetup(self, desktop_env_var)
 
-    def create_widgets(self):
-        ttk.Label(self, text="Packages Setup").pack(pady=5)
-        
-        self.chaotic_aur_var = tk.BooleanVar()
-        ttk.Checkbutton(self, text="Enable Chaotic AUR", variable=self.chaotic_aur_var).pack(pady=5)
-        
-        self.cachyos_repo_var = tk.BooleanVar()
-        ttk.Checkbutton(self, text="Enable CachyOS Repo", variable=self.cachyos_repo_var).pack(pady=5)
-        
-        ttk.Label(self, text="Select Packages:").pack(pady=5)
-        self.packages_var = tk.StringVar()
-        self.packages_entry = ttk.Entry(self, textvariable=self.packages_var)
-        self.packages_entry.pack(pady=5)
-
-    def setup_chaotic_aur(self):
-        print("Setting up Chaotic AUR...")
-
-    def setup_cachyos_repo(self):
-        print("Setting up CachyOS Repo...")
+    def get_packages_info(self):
+        return {
+            "extra_packages": self.packages_setup.packages_entry.get(),
+            "chaotic_aur": self.packages_setup.chaotic_aur_var.get(),
+            "cachyos_repo": self.packages_setup.cachyos_repo_var.get(),
+        }
