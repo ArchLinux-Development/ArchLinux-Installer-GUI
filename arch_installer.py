@@ -31,6 +31,7 @@ class ArchInstaller(tk.Tk):
 
         filesystem_frame = FilesystemSetupFrame(notebook)
         notebook.add(filesystem_frame, text="Filesystem Setup")
+        self.filesystem_setup = filesystem_frame
 
         bootloader_frame = BootloaderSetupFrame(notebook)
         notebook.add(bootloader_frame, text="Bootloader Setup")
@@ -58,7 +59,7 @@ class ArchInstaller(tk.Tk):
             user_info=self.user_input.get_user_info(),
             network_info=self.network_setup.get_network_info(),
             kernel_info=self.kernel_setup.get_kernel_info(),
-            filesystem_info="Filesystem settings to be added here.",  # Replace with actual filesystem settings
+            filesystem_info=self.filesystem_setup.get_filesystem_info(),
             bootloader_info="Bootloader settings to be added here.",  # Replace with actual bootloader settings
             swap_info="Swap settings to be added here.",  # Replace with actual swap settings
             desktop_env_info=self.desktop_environment_setup.get_desktop_env_info(),
