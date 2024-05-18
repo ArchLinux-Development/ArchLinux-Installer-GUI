@@ -40,3 +40,12 @@ def is_virtual_environment():
         print(f"Error using systemd-detect-virt: {e}")
 
     return False
+
+def is_arch_linux():
+    try:
+        with open("/etc/os-release") as f:
+            os_info = f.read().lower()
+            return "arch" in os_info
+    except Exception as e:
+        print(f"Error checking OS: {e}")
+        return False
