@@ -1,15 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
+from libs.swap import SwapSetup
 
 class SwapSetupFrame(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
-        self.create_widgets()
+        self.swap_setup = SwapSetup(self)
 
-    def create_widgets(self):
-        # Add swap setup widgets here
-        ttk.Label(self, text="Swap Setup").pack(pady=5)
-        # Example widget, replace with actual swap setup options
-        ttk.Label(self, text="Swap Size (MB):").pack(pady=5)
-        self.swap_size_var = tk.StringVar()
-        ttk.Entry(self, textvariable=self.swap_size_var).pack(pady=5)
+    def get_swap_info(self):
+        return {
+            "selected_swap": self.swap_setup.swap_var.get(),
+            "zram_size": self.swap_setup.zram_size_var.get() if self.swap_setup.swap_var.get() == "zram" else None
+        }

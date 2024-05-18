@@ -38,6 +38,7 @@ class ArchInstaller(tk.Tk):
 
         swap_frame = SwapSetupFrame(notebook)
         notebook.add(swap_frame, text="Swap Setup")
+        self.swap_setup = swap_frame
 
         desktop_environment_frame = DesktopEnvironmentFrame(notebook, tk.StringVar())
         notebook.add(desktop_environment_frame, text="Desktop Environment Setup")
@@ -61,7 +62,7 @@ class ArchInstaller(tk.Tk):
             kernel_info=self.kernel_setup.get_kernel_info(),
             filesystem_info=self.filesystem_setup.get_filesystem_info(),
             bootloader_info="Bootloader settings to be added here.",  # Replace with actual bootloader settings
-            swap_info="Swap settings to be added here.",  # Replace with actual swap settings
+            swap_info=self.swap_setup.get_swap_info(),
             desktop_env_info=self.desktop_environment_setup.get_desktop_env_info(),
             packages_info=self.packages_setup.get_packages_info()
         )
