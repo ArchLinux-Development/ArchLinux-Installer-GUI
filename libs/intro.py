@@ -1,0 +1,37 @@
+# libs/intro.py
+
+def get_intro_text():
+    """Return the introduction text for the installer."""
+    intro_text = (
+        "=" * 80 + "\n"
+        + " " * 15 + "Arch Linux Installation Script\n"
+        + " " * 25 + "Year: 2024\n"
+        + "=" * 80 + "\n\n"
+        + "Welcome to the Arch Linux Installation Helper!\n"
+        + "This advanced script is designed to simplify the process of installing Arch Linux with various filesystems, including BTRFS.\n"
+        + "With a focus on user-friendliness and customization, it provides a seamless experience even for beginners.\n"
+        + "\nKey Features:\n"
+        + "- Interactive drive selection from connected devices.\n"
+        + "- LUKS encryption for enhanced security.\n"
+        + "- Btrfs filesystem setup with optional compression.\n"
+        + "- Creation and management of Btrfs subvolumes.\n"
+        + "- Automatic mounting of the filesystem.\n"
+        + "- Installation of essential and custom packages.\n"
+        + "- Time zone and localization configuration.\n"
+        + "- Network setup for both wired and Wi-Fi connections.\n"
+        + "- Desktop environment installation options.\n"
+        + "- zRAM setup for improved performance.\n"
+        + "- Service management and activation.\n"
+        + "- Pacman repository configuration.\n"
+        + "- Integration of Chaotic-AUR and CachyOS Repository.\n"
+        + "- Kernel selection based on user preference.\n"
+        + "- User and root password management.\n"
+        + "\nInstructions:\n"
+        + "- Navigate using the tabs above.\n"
+        + "- Follow on-screen prompts carefully.\n"
+        + "- Ensure a stable internet connection when required.\n"
+        + "- Recommended to run from a Live Arch Linux environment.\n"
+        + "- Backup crucial data before making changes to drives or partitions.\n"
+        + "\nDisclaimer: Use this script at your own risk. Always ensure backups before making system changes.\n"
+    )
+    return intro_text

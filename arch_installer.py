@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from frames import IntroFrame, UserInputFrame, NetworkSetupFrame, KernelSetupFrame, FilesystemSetupFrame, BootloaderSetupFrame, SwapSetupFrame, DesktopEnvironmentFrame, PackagesSetupFrame, ConfirmationFrame
 from utils import show_splash_screen
+from libs.intro import get_intro_text  # Import the intro text function
 import subprocess
 
 class ArchInstaller(tk.Tk):
@@ -17,6 +18,7 @@ class ArchInstaller(tk.Tk):
 
         intro_frame = IntroFrame(notebook)
         notebook.add(intro_frame, text="Introduction")
+        self.display_intro(intro_frame)
 
         user_input_frame = UserInputFrame(notebook)
         notebook.add(user_input_frame, text="User Input")
@@ -115,3 +117,9 @@ class ArchInstaller(tk.Tk):
             messagebox.showinfo("Filesystem Creation", f"Filesystem {fs_type} created successfully on {device}.")
         except subprocess.CalledProcessError as e:
             messagebox.showerror("Filesystem Creation Error", f"Failed to create filesystem: {e}")
+
+    def display_intro(self, parent):
+        """Display the introduction to the script."""
+        intro_text = get_intro_text()
+        intro_label = tk.Label(parent, text=intro_text, justify=tk.CENTER)
+        intro_label.pack(expand=True, padx=10, pady=10)
