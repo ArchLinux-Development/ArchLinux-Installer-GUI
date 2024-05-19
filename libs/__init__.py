@@ -1,5 +1,5 @@
 from .user_input import UserInput
-from .network import NetworkSetup
+from .network import is_connected, scan_wifi, get_interfaces
 from .swap import SwapSetup
 from .splash_screen import show_splash_screen
 from .filesystem.filesystem_setup import FilesystemSetup
