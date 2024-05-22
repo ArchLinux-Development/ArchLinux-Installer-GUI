@@ -1,16 +1,19 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from frames import IntroFrame, UserInputFrame, NetworkSetupFrame, KernelSetupFrame, FilesystemSetupFrame, BootloaderSetupFrame, SwapSetupFrame, DesktopEnvironmentFrame, PackagesSetupFrame, ConfirmationFrame
+from frames import (IntroFrame, UserInputFrame, NetworkSetupFrame, KernelSetupFrame, 
+                    FilesystemSetupFrame, BootloaderSetupFrame, SwapSetupFrame, 
+                    DesktopEnvironmentFrame, PackagesSetupFrame, ConfirmationFrame)
 from utils import show_splash_screen
-from libs.intro import get_intro_text  # Import the intro text function
-from libs.final_arch_installer import create_filesystem, run_chaotic_aur_setup, run_cachyos_repo_setup, run_command
+from libs.intro import get_intro_text
+from libs.final_arch_installer import (create_filesystem, run_chaotic_aur_setup, 
+                                       run_cachyos_repo_setup, install_microcode, run_command)
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Arch Linux Installer")
         self.geometry("1020x600")
-        self.packages_setup = None  # To be set later
+        self.packages_setup = None
         self.create_widgets()
 
     def create_widgets(self):
@@ -79,7 +82,6 @@ class ArchInstaller(tk.Tk):
         print("Starting installation...")
         print(f"User Info: {user_info}")
 
-        # Defer filesystem creation to the end
         self.perform_installation()
 
         messagebox.showinfo("Installation", "Installation process started. Check the console for details.")
@@ -93,10 +95,10 @@ class ArchInstaller(tk.Tk):
         create_filesystem(fs_info["filesystem"], fs_info["device"])
         run_chaotic_aur_setup()
         run_cachyos_repo_setup()
+        install_microcode()
         # Add more steps as needed, calling functions from final_arch_installer
 
     def display_intro(self, parent):
-        """Display the introduction to the script."""
         intro_text = get_intro_text()
         intro_label = tk.Label(parent, text=intro_text, justify=tk.CENTER)
         intro_label.pack(expand=True, padx=10, pady=10)

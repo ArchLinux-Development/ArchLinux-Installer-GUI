@@ -69,3 +69,16 @@ def create_filesystem(fs_type, device):
         messagebox.showinfo("Filesystem Creation", f"Filesystem {fs_type} created successfully on {device}.")
     except subprocess.CalledProcessError as e:
         messagebox.showerror("Filesystem Creation Error", f"Failed to create filesystem: {e}")
+
+def install_microcode():
+    # Detect the CPU vendor
+    cpu_vendor = run_command("grep -m 1 'vendor_id' /proc/cpuinfo").stdout
+
+    if "Intel" in cpu_vendor:
+        print("Intel CPU detected. Installing intel-ucode...")
+        run_command("pacman -S intel-ucode")
+    elif "AMD" in cpu_vendor:
+        print("AMD CPU detected. Installing amd-ucode...")
+        run_command("pacman -S amd-ucode")
+    else:
+        print("Unknown CPU vendor. Skipping microcode installation.")
