@@ -45,3 +45,27 @@ def run_cachyos_repo_setup():
 
     run_command('echo -e "\n[cachyos]\nInclude = /etc/pacman.d/cachyos-mirrorlist" >> /etc/pacman.conf')
     print("CachyOS repository setup complete!")
+
+def create_filesystem(fs_type, device):
+    try:
+        if fs_type == "ext4":
+            subprocess.run(['mkfs.ext4', device], check=True)
+        elif fs_type == "btrfs":
+            subprocess.run(['mkfs.btrfs', device], check=True)
+        elif fs_type == "zfs":
+            subprocess.run(['zpool create mypool', device], check=True)
+        elif fs_type == "xfs":
+            subprocess.run(['mkfs.xfs', device], check=True)
+        elif fs_type == "jfs":
+            subprocess.run(['mkfs.jfs', device], check=True)
+        elif fs_type == "reiserfs":
+            subprocess.run(['mkfs.reiserfs', device], check=True)
+        elif fs_type == "f2fs":
+            subprocess.run(['mkfs.f2fs', device], check=True)
+        else:
+            messagebox.showerror("Error", f"Unknown filesystem type: {fs_type}")
+            return
+
+        messagebox.showinfo("Filesystem Creation", f"Filesystem {fs_type} created successfully on {device}.")
+    except subprocess.CalledProcessError as e:
+        messagebox.showerror("Filesystem Creation Error", f"Failed to create filesystem: {e}")

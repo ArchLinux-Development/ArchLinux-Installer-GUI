@@ -3,7 +3,7 @@ from tkinter import ttk, messagebox
 from frames import IntroFrame, UserInputFrame, NetworkSetupFrame, KernelSetupFrame, FilesystemSetupFrame, BootloaderSetupFrame, SwapSetupFrame, DesktopEnvironmentFrame, PackagesSetupFrame, ConfirmationFrame
 from utils import show_splash_screen
 from libs.intro import get_intro_text  # Import the intro text function
-import subprocess
+from libs.final_arch_installer import create_filesystem, run_chaotic_aur_setup, run_cachyos_repo_setup, run_command
 
 class ArchInstaller(tk.Tk):
     def __init__(self):
@@ -80,46 +80,27 @@ class ArchInstaller(tk.Tk):
         print(f"User Info: {user_info}")
 
         # Defer filesystem creation to the end
-        self.create_filesystem()
+        self.perform_installation()
 
-        # Add other installation steps here
-        # e.g., partitioning, mounting filesystems, pacstrap, etc.
         messagebox.showinfo("Installation", "Installation process started. Check the console for details.")
 
-    def create_filesystem(self):
+    def perform_installation(self):
         fs_info = self.filesystem_setup.get_filesystem_info()
         if not fs_info["device"]:
             messagebox.showerror("Error", "No device selected for filesystem.")
             return
 
-        fs_type = fs_info["filesystem"]
-        device = fs_info["device"]
-
-        try:
-            if fs_type == "ext4":
-                subprocess.run(['mkfs.ext4', device], check=True)
-            elif fs_type == "btrfs":
-                subprocess.run(['mkfs.btrfs', device], check=True)
-            elif fs_type == "zfs":
-                subprocess.run(['zpool create mypool', device], check=True)
-            elif fs_type == "xfs":
-                subprocess.run(['mkfs.xfs', device], check=True)
-            elif fs_type == "jfs":
-                subprocess.run(['mkfs.jfs', device], check=True)
-            elif fs_type == "reiserfs":
-                subprocess.run(['mkfs.reiserfs', device], check=True)
-            elif fs_type == "f2fs":
-                subprocess.run(['mkfs.f2fs', device], check=True)
-            else:
-                messagebox.showerror("Error", f"Unknown filesystem type: {fs_type}")
-                return
-
-            messagebox.showinfo("Filesystem Creation", f"Filesystem {fs_type} created successfully on {device}.")
-        except subprocess.CalledProcessError as e:
-            messagebox.showerror("Filesystem Creation Error", f"Failed to create filesystem: {e}")
+        create_filesystem(fs_info["filesystem"], fs_info["device"])
+        run_chaotic_aur_setup()
+        run_cachyos_repo_setup()
+        # Add more steps as needed, calling functions from final_arch_installer
 
     def display_intro(self, parent):
         """Display the introduction to the script."""
         intro_text = get_intro_text()
         intro_label = tk.Label(parent, text=intro_text, justify=tk.CENTER)
         intro_label.pack(expand=True, padx=10, pady=10)
+
+if __name__ == "__main__":
+    app = ArchInstaller()
+    app.mainloop()
