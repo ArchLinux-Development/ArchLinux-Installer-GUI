@@ -14,11 +14,8 @@ class ConfirmationFrame(ctk.CTkFrame):
         self.summary_text = ctk.CTkTextbox(self, height=400, width=800, wrap="word")
         self.summary_text.pack(pady=10)
 
-        # Removed redundant button as it's handled by the wizard next button
-        # But wait, original code had a button here. The wizard controller handles navigation.
-        # The 'Next' button becomes 'Install' on this page. So we don't need a separate button here unless the wizard logic is different.
-        # The WizardController logic I saw earlier updates the 'Next' button to 'Install'.
-        # So I should remove this button.
+        self.save_btn = ctk.CTkButton(self, text="Save Configuration", command=self.controller.save_configuration)
+        self.save_btn.pack(pady=10)
 
     def update_summary(self, user_info, network_info, kernel_info, filesystem_info, bootloader_info, swap_info, desktop_env_info, packages_info):
         self.summary_text.delete("0.0", "end")

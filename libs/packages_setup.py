@@ -16,6 +16,16 @@ def run_command(command):
         print(f"Error running command: {e}")
         return None
 
+def check_package_exists(package_name):
+    # Uses pacman -Ss to search. Output is non-empty if found.
+    # Alternatively, pacman -Si might be better for exact match, but -Ss is safer for fuzzy or just checking availability.
+    # Using -Si returns 0 if found, 1 if not.
+    try:
+        subprocess.run(f"pacman -Si {package_name}", shell=True, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
 class PackagesSetup:
     def __init__(self, frame, desktop_env_var):
         self.frame = frame
@@ -25,11 +35,21 @@ class PackagesSetup:
     def create_widgets(self):
         ctk.CTkLabel(self.frame, text="Additional Packages Setup:").pack(pady=10)
 
-        self.packages_label = ctk.CTkLabel(self.frame, text="Extra Packages:")
+        self.packages_label = ctk.CTkLabel(self.frame, text="Extra Packages (Space separated):")
         self.packages_label.pack(pady=5)
-        self.packages_entry = ctk.CTkEntry(self.frame, width=400)
-        self.packages_entry.pack(pady=5)
-        self.packages_entry.insert(0, "Example: package1 package2 package3")
+        
+        # Using a frame for entry and validate button
+        self.pkg_input_frame = ctk.CTkFrame(self.frame)
+        self.pkg_input_frame.pack(pady=5)
+        
+        self.packages_entry = ctk.CTkEntry(self.pkg_input_frame, width=300)
+        self.packages_entry.pack(side="left", padx=5)
+        
+        self.validate_btn = ctk.CTkButton(self.pkg_input_frame, text="Validate", width=80, command=self.validate_packages)
+        self.validate_btn.pack(side="left", padx=5)
+        
+        self.validation_label = ctk.CTkLabel(self.frame, text="", text_color="gray")
+        self.validation_label.pack(pady=2)
 
         self.repos_label = ctk.CTkLabel(self.frame, text="Additional Repositories:")
         self.repos_label.pack(pady=5)
@@ -117,4 +137,28 @@ class PackagesSetup:
             run_command('echo -e "\n[cachyos-extra-v3]\nInclude = /etc/pacman.d/cachyos-v3-mirrorlist" >> /etc/pacman.conf')
 
         run_command('echo -e "\n[cachyos]\nInclude = /etc/pacman.d/cachyos-mirrorlist" >> /etc/pacman.conf')
+        run_command('echo -e "\n[cachyos]\nInclude = /etc/pacman.d/cachyos-mirrorlist" >> /etc/pacman.conf')
         print("CachyOS repository setup complete!")
+
+    def validate_packages(self):
+        pkg_str = self.packages_entry.get()
+        if not pkg_str.strip():
+            self.validation_label.configure(text="No packages entered", text_color="yellow")
+            return
+
+        packages = pkg_str.split()
+        invalid_pkgs = []
+        valid_pkgs = []
+        
+        for pkg in packages:
+             if check_package_exists(pkg):
+                 valid_pkgs.append(pkg)
+             else:
+                 invalid_pkgs.append(pkg)
+        
+        if invalid_pkgs:
+            self.validation_label.configure(text=f"Invalid: {', '.join(invalid_pkgs)}", text_color="red")
+            messagebox.showwarning("Package Validation", f"The following packages were not found in repositories:\n{', '.join(invalid_pkgs)}")
+        else:
+            self.validation_label.configure(text="All packages valid!", text_color="green")
+            messagebox.showinfo("Package Validation", "All packages verified successfully.")

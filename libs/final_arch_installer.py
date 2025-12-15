@@ -67,9 +67,9 @@ def create_filesystem(fs_type, device):
     try:
         print(f"Creating {fs_type} filesystem on {device}...")
         if fs_type == "ext4":
-            run_command(f"mkfs.ext4 -F {device}") # -F to force
+            run_command(f"mkfs.ext4 -F {device}")
         elif fs_type == "btrfs":
-            run_command(f"mkfs.btrfs -f {device}") # -f to force
+            run_command(f"mkfs.btrfs -f {device}")
         elif fs_type == "zfs":
             run_command(f"zpool create -f mypool {device}")
         elif fs_type == "xfs":
@@ -80,13 +80,30 @@ def create_filesystem(fs_type, device):
             run_command(f"mkfs.reiserfs -f {device}")
         elif fs_type == "f2fs":
             run_command(f"mkfs.f2fs -f {device}")
+        elif fs_type == "bcachefs":
+            run_command(f"mkfs.bcachefs -f {device}")
+        elif fs_type == "nilfs2":
+            run_command(f"mkfs.nilfs2 -f {device}")
         else:
             print(f"Error: Unknown filesystem type: {fs_type}")
             return
 
         print(f"Filesystem {fs_type} created successfully on {device}.")
+        
+        # Mount logic could go here or be a separate step
+        # For now, let's just log it since we are creating FS
+        
     except Exception as e:
         print(f"Failed to create filesystem: {e}")
+        raise e
+
+def mount_filesystem(device, mount_point):
+    try:
+        print(f"Mounting {device} to {mount_point}...")
+        subprocess.run(['mount', '--mkdir', device, f"/mnt{mount_point}"], check=True)
+        print(f"Mounted successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Failed to mount filesystem: {e}")
         raise e
 
 def install_microcode():
