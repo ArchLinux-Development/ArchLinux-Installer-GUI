@@ -8,3 +8,4 @@ from .swap_setup_frame import SwapSetupFrame
 from .desktop_environment_frame import DesktopEnvironmentFrame
 from .packages_setup_frame import PackagesSetupFrame
 from .confirmation_frame import ConfirmationFrame
+from .installation_progress_frame import InstallationProgressFrame

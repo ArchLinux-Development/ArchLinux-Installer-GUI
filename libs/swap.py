@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 import psutil
 
 class SwapSetup:
@@ -8,21 +8,21 @@ class SwapSetup:
         self.create_widgets()
 
     def create_widgets(self):
-        ttk.Label(self.frame, text="Swap Setup:").pack(pady=10)
+        ctk.CTkLabel(self.frame, text="Swap Setup:").pack(pady=10)
 
         self.swap_var = tk.StringVar(value="zram")
         swaps = ["zram", "swap partition", "swap file"]
 
         for sw in swaps:
-            ttk.Radiobutton(self.frame, text=sw, variable=self.swap_var, value=sw).pack(pady=5)
+            ctk.CTkRadioButton(self.frame, text=sw, variable=self.swap_var, value=sw).pack(pady=5)
 
-        self.zram_frame = ttk.Frame(self.frame)
+        self.zram_frame = ctk.CTkFrame(self.frame)
 
-        self.zram_size_label = ttk.Label(self.zram_frame, text="ZRAM Size:")
+        self.zram_size_label = ctk.CTkLabel(self.zram_frame, text="ZRAM Size:")
         self.zram_size_label.pack(side="left", padx=5)
 
         self.zram_size_var = tk.StringVar()
-        self.zram_size_combo = ttk.Combobox(self.zram_frame, textvariable=self.zram_size_var, width=20)
+        self.zram_size_combo = ctk.CTkComboBox(self.zram_frame, variable=self.zram_size_var, width=200)
         self.zram_size_combo.pack(side="left", padx=5)
 
         self.populate_zram_sizes()

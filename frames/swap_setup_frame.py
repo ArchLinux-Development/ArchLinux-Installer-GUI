@@ -1,8 +1,7 @@
-import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 from libs.swap import SwapSetup
 
-class SwapSetupFrame(ttk.Frame):
+class SwapSetupFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.swap_setup = SwapSetup(self)

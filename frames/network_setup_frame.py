@@ -1,11 +1,12 @@
+import customtkinter as ctk
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import messagebox
+import subprocess # Ensure subprocess is imported
 from libs import network
 
-class NetworkSetupFrame(tk.Frame):
+class NetworkSetupFrame(ctk.CTkFrame):
     def __init__(self, parent):
-        tk.Frame.__init__(self, parent)
-        self.pack(fill=tk.BOTH, expand=True)
+        super().__init__(parent)
         self.network_var = tk.StringVar()
         self.wifi_ssid_var = tk.StringVar()
         self.wifi_password_var = tk.StringVar()
@@ -15,27 +16,27 @@ class NetworkSetupFrame(tk.Frame):
         self.detect_networks()
 
     def create_widgets(self):
-        ttk.Label(self, text="Network Setup:").pack(pady=10)
+        ctk.CTkLabel(self, text="Network Setup:").pack(pady=10)
 
-        self.network_label = ttk.Label(self, text="Network Interface:")
+        self.network_label = ctk.CTkLabel(self, text="Network Interface:")
         self.network_label.pack(pady=5)
-        self.network_combobox = ttk.Combobox(self, textvariable=self.network_var, state="readonly", width=50)
+        self.network_combobox = ctk.CTkComboBox(self, variable=self.network_var, state="readonly", width=300)
         self.network_combobox.pack(pady=5)
 
-        self.wifi_label = ttk.Label(self, text="WiFi SSID:")
+        self.wifi_label = ctk.CTkLabel(self, text="WiFi SSID:")
         self.wifi_label.pack(pady=5)
-        self.wifi_combobox = ttk.Combobox(self, textvariable=self.wifi_ssid_var, state="readonly", width=50)
+        self.wifi_combobox = ctk.CTkComboBox(self, variable=self.wifi_ssid_var, state="readonly", width=300)
         self.wifi_combobox.pack(pady=5)
 
-        self.wifi_password_label = ttk.Label(self, text="WiFi Password:")
+        self.wifi_password_label = ctk.CTkLabel(self, text="WiFi Password:")
         self.wifi_password_label.pack(pady=5)
-        self.wifi_password_entry = ttk.Entry(self, show='*', textvariable=self.wifi_password_var, width=50)
+        self.wifi_password_entry = ctk.CTkEntry(self, show='*', textvariable=self.wifi_password_var, width=300)
         self.wifi_password_entry.pack(pady=5)
 
-        self.connect_button = ttk.Button(self, text="Connect", command=self.connect_to_network)
+        self.connect_button = ctk.CTkButton(self, text="Connect", command=self.connect_to_network)
         self.connect_button.pack(pady=10)
 
-        self.connection_status_label = ttk.Label(self, textvariable=self.connection_status_var)
+        self.connection_status_label = ctk.CTkLabel(self, textvariable=self.connection_status_var)
         self.connection_status_label.pack(pady=10)
 
     def update_network_status(self):

@@ -1,8 +1,7 @@
-import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 from libs.desktop_environment.desktop_environment_setup import DesktopEnvironmentSetup
 
-class DesktopEnvironmentFrame(ttk.Frame):
+class DesktopEnvironmentFrame(ctk.CTkFrame):
     def __init__(self, parent, desktop_env_var):
         super().__init__(parent)
         self.desktop_env_var = desktop_env_var

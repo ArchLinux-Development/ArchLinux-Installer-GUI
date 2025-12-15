@@ -1,8 +1,7 @@
-import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 from libs.packages_setup import PackagesSetup
 
-class PackagesSetupFrame(ttk.Frame):
+class PackagesSetupFrame(ctk.CTkFrame):
     def __init__(self, parent, desktop_env_var):
         super().__init__(parent)
         self.packages_setup = PackagesSetup(self, desktop_env_var)

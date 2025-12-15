@@ -1,8 +1,7 @@
-import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 from libs.kernel_setup import KernelSetup
 
-class KernelSetupFrame(ttk.Frame):
+class KernelSetupFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.kernel_setup = KernelSetup(self)

@@ -1,7 +1,8 @@
 # libs/kernel_setup.py
 
 import tkinter as tk
-from tkinter import ttk, messagebox
+import customtkinter as ctk
+from tkinter import messagebox
 
 class KernelSetup:
     def __init__(self, frame):
@@ -9,7 +10,7 @@ class KernelSetup:
         self.create_widgets()
 
     def create_widgets(self):
-        ttk.Label(self.frame, text="Kernel Selection:").pack(pady=10)
+        ctk.CTkLabel(self.frame, text="Kernel Selection:").pack(pady=10)
 
         self.kernel_var = tk.StringVar(value="linux")
 
@@ -21,9 +22,9 @@ class KernelSetup:
         ]
 
         for kernel in kernels:
-            ttk.Radiobutton(self.frame, text=kernel, variable=self.kernel_var, value=kernel.split()[0]).pack(pady=5)
+            ctk.CTkRadioButton(self.frame, text=kernel, variable=self.kernel_var, value=kernel.split()[0]).pack(pady=5)
 
-        self.confirm_button = ttk.Button(self.frame, text="Confirm Kernel Selection", command=self.confirm_selection)
+        self.confirm_button = ctk.CTkButton(self.frame, text="Confirm Kernel Selection", command=self.confirm_selection)
         self.confirm_button.pack(pady=10)
 
     def confirm_selection(self):

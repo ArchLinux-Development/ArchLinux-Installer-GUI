@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 import subprocess
 from tkinter import messagebox
 
@@ -9,17 +9,17 @@ class FilesystemSetup:
         self.create_widgets()
 
     def create_widgets(self):
-        ttk.Label(self.frame, text="Filesystem Setup:").pack(pady=10)
+        ctk.CTkLabel(self.frame, text="Filesystem Setup:").pack(pady=10)
 
         self.fs_var = tk.StringVar(value="ext4")
         filesystems = ["ext4", "btrfs", "zfs", "xfs", "jfs", "reiserfs", "f2fs"]
 
         for fs in filesystems:
-            ttk.Radiobutton(self.frame, text=fs, variable=self.fs_var, value=fs.lower()).pack(pady=5)
+            ctk.CTkRadioButton(self.frame, text=fs, variable=self.fs_var, value=fs.lower()).pack(pady=5)
 
-        self.device_label = ttk.Label(self.frame, text="Device:")
+        self.device_label = ctk.CTkLabel(self.frame, text="Device:")
         self.device_label.pack(pady=5)
-        self.device_combo = ttk.Combobox(self.frame)
+        self.device_combo = ctk.CTkComboBox(self.frame)
         self.device_combo.pack(pady=5)
         self.update_device_list()
 

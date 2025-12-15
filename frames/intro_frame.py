@@ -1,7 +1,6 @@
-import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 
-class IntroFrame(tk.Frame):
+class IntroFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.create_widgets()

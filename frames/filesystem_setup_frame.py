@@ -1,8 +1,7 @@
-import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 from libs.filesystem.filesystem_setup import FilesystemSetup
 
-class FilesystemSetupFrame(ttk.Frame):
+class FilesystemSetupFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.filesystem_setup = FilesystemSetup(self)

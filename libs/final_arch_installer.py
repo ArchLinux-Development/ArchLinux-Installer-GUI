@@ -1,14 +1,31 @@
 import os
 import subprocess
-from tkinter import messagebox
+
 
 def is_inside_chroot():
     return os.path.exists("/etc/arch-release") and not os.path.exists("/proc/1/root")
 
 def run_command(command):
     try:
-        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        return result
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1, universal_newlines=True)
+        
+        output_lines = []
+        for line in process.stdout:
+            print(line, end='')  # Stream to stdout (which will be intercepted)
+            output_lines.append(line)
+            
+        process.wait()
+        
+        if process.returncode != 0:
+            raise subprocess.CalledProcessError(process.returncode, command, "".join(output_lines))
+            
+        # Mock result object for compatibility if needed, or just return stdout string
+        class MockResult:
+            def __init__(self, stdout):
+                self.stdout = stdout
+                
+        return MockResult("".join(output_lines))
+
     except subprocess.CalledProcessError as e:
         print(f"Error running command: {e}")
         return None
@@ -48,27 +65,29 @@ def run_cachyos_repo_setup():
 
 def create_filesystem(fs_type, device):
     try:
+        print(f"Creating {fs_type} filesystem on {device}...")
         if fs_type == "ext4":
-            subprocess.run(['mkfs.ext4', device], check=True)
+            run_command(f"mkfs.ext4 -F {device}") # -F to force
         elif fs_type == "btrfs":
-            subprocess.run(['mkfs.btrfs', device], check=True)
+            run_command(f"mkfs.btrfs -f {device}") # -f to force
         elif fs_type == "zfs":
-            subprocess.run(['zpool create mypool', device], check=True)
+            run_command(f"zpool create -f mypool {device}")
         elif fs_type == "xfs":
-            subprocess.run(['mkfs.xfs', device], check=True)
+            run_command(f"mkfs.xfs -f {device}")
         elif fs_type == "jfs":
-            subprocess.run(['mkfs.jfs', device], check=True)
+            run_command(f"mkfs.jfs -q {device}")
         elif fs_type == "reiserfs":
-            subprocess.run(['mkfs.reiserfs', device], check=True)
+            run_command(f"mkfs.reiserfs -f {device}")
         elif fs_type == "f2fs":
-            subprocess.run(['mkfs.f2fs', device], check=True)
+            run_command(f"mkfs.f2fs -f {device}")
         else:
-            messagebox.showerror("Error", f"Unknown filesystem type: {fs_type}")
+            print(f"Error: Unknown filesystem type: {fs_type}")
             return
 
-        messagebox.showinfo("Filesystem Creation", f"Filesystem {fs_type} created successfully on {device}.")
-    except subprocess.CalledProcessError as e:
-        messagebox.showerror("Filesystem Creation Error", f"Failed to create filesystem: {e}")
+        print(f"Filesystem {fs_type} created successfully on {device}.")
+    except Exception as e:
+        print(f"Failed to create filesystem: {e}")
+        raise e
 
 def install_microcode():
     # Detect the CPU vendor

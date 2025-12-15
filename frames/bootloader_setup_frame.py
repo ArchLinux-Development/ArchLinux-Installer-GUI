@@ -1,22 +1,23 @@
+import customtkinter as ctk
 import tkinter as tk
-from tkinter import ttk, messagebox
+from tkinter import messagebox
 from libs.bootloader import grub, systemd_boot, syslinux, refind, lilo, efistub, clover_efi, elilo
 
-class BootloaderSetupFrame(ttk.Frame):
+class BootloaderSetupFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
         self.create_widgets()
 
     def create_widgets(self):
-        ttk.Label(self, text="Bootloader Setup:").pack(pady=10)
+        ctk.CTkLabel(self, text="Bootloader Setup:").pack(pady=10)
 
         self.bootloader_var = tk.StringVar(value="grub")
         bootloaders = ["GRUB", "systemd-boot", "Syslinux", "rEFInd", "LILO", "EFISTUB", "Clover EFI", "Elilo"]
 
         for bl in bootloaders:
-            ttk.Radiobutton(self, text=bl, variable=self.bootloader_var, value=bl.lower()).pack(pady=5)
+            ctk.CTkRadioButton(self, text=bl, variable=self.bootloader_var, value=bl.lower()).pack(pady=5)
 
-        self.install_button = ttk.Button(self, text="Install Bootloader", command=self.install_bootloader)
+        self.install_button = ctk.CTkButton(self, text="Install Bootloader", command=self.install_bootloader)
         self.install_button.pack(pady=10)
 
     def install_bootloader(self):

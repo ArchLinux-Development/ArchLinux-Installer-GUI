@@ -1,7 +1,7 @@
 # libs/user_input.py
 
 import tkinter as tk
-from tkinter import ttk
+import customtkinter as ctk
 import psutil
 import platform
 import subprocess
@@ -14,41 +14,41 @@ class UserInput:
         self.detect_locale()
 
     def create_widgets(self):
-        ttk.Label(self.frame, text="User Information:").pack(pady=10)
+        ctk.CTkLabel(self.frame, text="User Information:").pack(pady=10)
 
-        ttk.Label(self.frame, text="Username:").pack(pady=5)
-        self.username_entry = ttk.Entry(self.frame, width=50)
+        ctk.CTkLabel(self.frame, text="Username:").pack(pady=5)
+        self.username_entry = ctk.CTkEntry(self.frame, width=300)
         self.username_entry.pack(pady=5)
 
-        ttk.Label(self.frame, text="Password:").pack(pady=5)
-        self.password_entry = ttk.Entry(self.frame, show='*', width=50)
+        ctk.CTkLabel(self.frame, text="Password:").pack(pady=5)
+        self.password_entry = ctk.CTkEntry(self.frame, show='*', width=300)
         self.password_entry.pack(pady=5)
 
-        ttk.Label(self.frame, text="Admin Password:").pack(pady=5)
-        self.admin_password_entry = ttk.Entry(self.frame, show='*', width=50)
+        ctk.CTkLabel(self.frame, text="Admin Password:").pack(pady=5)
+        self.admin_password_entry = ctk.CTkEntry(self.frame, show='*', width=300)
         self.admin_password_entry.pack(pady=5)
 
         self.admin_rights_var = tk.BooleanVar(value=True)
-        self.admin_rights_check = ttk.Checkbutton(self.frame, text="Grant admin rights", variable=self.admin_rights_var)
+        self.admin_rights_check = ctk.CTkCheckBox(self.frame, text="Grant admin rights", variable=self.admin_rights_var)
         self.admin_rights_check.pack(pady=5)
 
-        ttk.Label(self.frame, text="Locale Settings:").pack(pady=10)
+        ctk.CTkLabel(self.frame, text="Locale Settings:").pack(pady=10)
 
-        ttk.Label(self.frame, text="Country:").pack(pady=5)
+        ctk.CTkLabel(self.frame, text="Country:").pack(pady=5)
         self.country_var = tk.StringVar()
-        self.country_combobox = ttk.Combobox(self.frame, textvariable=self.country_var, width=47)
+        self.country_combobox = ctk.CTkComboBox(self.frame, variable=self.country_var, width=300)
         self.country_combobox.pack(pady=5)
 
-        ttk.Label(self.frame, text="Language:").pack(pady=5)
+        ctk.CTkLabel(self.frame, text="Language:").pack(pady=5)
         self.language_var = tk.StringVar()
-        self.language_combobox = ttk.Combobox(self.frame, textvariable=self.language_var, width=47)
+        self.language_combobox = ctk.CTkComboBox(self.frame, variable=self.language_var, width=300)
         self.language_combobox.pack(pady=5)
 
-        ttk.Label(self.frame, text="Hardware Detection:").pack(pady=10)
-        self.detect_hardware_button = ttk.Button(self.frame, text="Detect Hardware", command=self.detect_hardware)
+        ctk.CTkLabel(self.frame, text="Hardware Detection:").pack(pady=10)
+        self.detect_hardware_button = ctk.CTkButton(self.frame, text="Detect Hardware", command=self.detect_hardware)
         self.detect_hardware_button.pack(pady=5)
 
-        self.hardware_text = tk.Text(self.frame, height=10, width=80)
+        self.hardware_text = ctk.CTkTextbox(self.frame, height=200, width=500)
         self.hardware_text.pack(pady=5)
 
     def detect_locale(self):

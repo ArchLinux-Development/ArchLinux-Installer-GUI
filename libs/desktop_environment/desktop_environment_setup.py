@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk, messagebox
+import customtkinter as ctk
+from tkinter import messagebox
 
 class DesktopEnvironmentSetup:
     def __init__(self, frame, desktop_env_var):
@@ -8,24 +9,24 @@ class DesktopEnvironmentSetup:
         self.create_widgets()
 
     def create_widgets(self):
-        ttk.Label(self.frame, text="Desktop Environment Setup:").pack(pady=10)
+        ctk.CTkLabel(self.frame, text="Desktop Environment Setup:").pack(pady=10)
 
         self.desktop_env_var.set("gnome")  # Default desktop environment
         environments = ["gnome", "kde_plasma", "xfce", "lxde", "lxqt", "cinnamon", "mate", "budgie", "deepin", "enlightenment"]
 
-        self.env_menu = ttk.OptionMenu(self.frame, self.desktop_env_var, environments[0], *environments)
+        self.env_menu = ctk.CTkOptionMenu(self.frame, variable=self.desktop_env_var, values=environments)
         self.env_menu.pack(pady=5)
 
         self.xorg_var = tk.BooleanVar(value=True)
         self.wayland_var = tk.BooleanVar(value=False)
 
-        self.xorg_check = ttk.Checkbutton(self.frame, text="Install Xorg", variable=self.xorg_var)
+        self.xorg_check = ctk.CTkCheckBox(self.frame, text="Install Xorg", variable=self.xorg_var)
         self.xorg_check.pack(pady=5)
 
-        self.wayland_check = ttk.Checkbutton(self.frame, text="Install Wayland", variable=self.wayland_var)
+        self.wayland_check = ctk.CTkCheckBox(self.frame, text="Install Wayland", variable=self.wayland_var)
         self.wayland_check.pack(pady=5)
 
-        self.info_label = ttk.Label(self.frame, text="Select at least one: Xorg or Wayland.")
+        self.info_label = ctk.CTkLabel(self.frame, text="Select at least one: Xorg or Wayland.")
         self.info_label.pack(pady=5)
 
     def validate_selection(self):
